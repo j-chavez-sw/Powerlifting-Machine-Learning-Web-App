@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class = "jumbotron">
+        <div align='center'>
+            <h1>
+                Account Information
+            </h1>
+            <ul>
+                <li>Username: {{ current_user.username }}</li>
+                <li>Email:    {{ current_user.email }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <form method="POST" action = "" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+            {{ form.username.label(class="form-group") }}
+            {{ form.username(class="form-control") }}
+            </div>
+            <div class="form-group">
+            {{ form.email.label(class="form-group") }}
+            {{ form.email(class="form-control") }}
+            </div>
+            <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

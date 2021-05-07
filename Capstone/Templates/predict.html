@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class = "jumbotron">
+        <h1>
+            Predict
+        </h1>
+        <h3>Our Flask Buttons</h3>
+        <a href="{{url_for('users.bench')}}">
+            <button type="button" class="btn btn-primary btn-lg">Bench</button>
+        </a>
+        <a href="{{url_for('users.squat')}}">
+            <button type="button" class="btn btn-secondary btn-lg">Squat</button>
+        </a>
+        <a href="{{url_for('users.deadlift')}}">
+            <button type="button" class="btn btn-danger btn-lg">Deadlift</button>
+        </a>
+    </div>
+{% endblock %}

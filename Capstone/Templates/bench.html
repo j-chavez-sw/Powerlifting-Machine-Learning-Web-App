@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    <tr>
+    <td>
+    <div class = "jumbotron">
+        <h1>
+            bench
+        </h1>
+        <div>
+            <form method="post">
+                {{ form.hidden_tag() }}
+                {{ form.equipment.label }} {{ form.equipment }}<br>
+                {{ form.age.label }} {{ form.age }}<br>
+                {{ form.sex.label }} {{ form.sex }}<br>
+                {{ form.weight.label }} {{ form.weight }}<br>
+                {{ form.squat.label }} {{ form.squat }}<br>
+                {{ form.deadlift.label }} {{ form.deadlift }}<br>
+                {{ form.submit() }}
+            </form>
+        </div>
+
+    </div>
+    </td>
+    <td>
+    <div>
+        <h2>
+            Prediction
+        </h2>
+        {{ new_prediction }}
+    </div>
+    </td>
+    </tr>
+{% endblock %}
