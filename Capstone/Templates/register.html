@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="p-5 mb-4 bg-light rounded-3">
     <form method="post">
         {{ form.hidden_tag() }}
         {{ form.email.label }}{{ form.email }}<br>
@@ -8,4 +9,5 @@
         {{ form.confirm_password.label }}{{ form.confirm_password }}<br>
         {{ form.submit() }}
     </form>
+    </div>
 {% endblock %}
