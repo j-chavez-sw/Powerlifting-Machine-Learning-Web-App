@@ -3,17 +3,19 @@ from flask_login import login_user, current_user, logout_user, login_required
 from Capstone import db
 from Capstone.models import User
 from Capstone.Users.forms import RegistrationForm, LoginForm, UpdateForm, BenchForm
+from Capstone.ML import predict_squat
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 
-
 users = Blueprint('users', __name__)
+
 
 @users.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for("core.index"))
+
 
 @users.route('/register', methods=['GET','POST'])
 def register():
@@ -30,6 +32,7 @@ def register():
         return redirect(url_for('users.login'))
 
     return render_template('register.html', form = form)
+
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
@@ -51,6 +54,7 @@ def login():
 
     return render_template('login.html', form = form)
 
+
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
@@ -68,11 +72,13 @@ def account():
 
     return render_template('account.html', form=form)
 
+
 @users.route('/visualize', methods=['GET', 'POST'])
 @login_required
 def visualize():
     dog = "doggy"
     return render_template('visualize.html', dog=dog)
+
 
 @users.route('/predict', methods=['GET', 'POST'])
 @login_required
@@ -98,6 +104,7 @@ def predict():
 
     return render_template('predict.html')
 
+
 @users.route('/bench', methods=['GET', 'POST'])
 @login_required
 def bench():
@@ -105,6 +112,7 @@ def bench():
     form = BenchForm()
 
     if form.validate_on_submit():
+        predictor = predict_squat()
 
         equipment = form.equipment.data
         age = form.age.data

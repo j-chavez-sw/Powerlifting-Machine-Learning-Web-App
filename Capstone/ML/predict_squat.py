@@ -10,56 +10,62 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import MinMaxScaler
 
 
-def load_create_sets():
-    df4 = pd.read_csv('df4.csv')
+class predict_squat():
 
-    X = df4.drop(['Equipment', 'TotalKg', 'Best3SquatKg'], 1)
-
-    y = df4['Best3SquatKg']
-
-    from sklearn.model_selection import train_test_split
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
-
-    return X_train, X_test, y_train, y_test
-
-def train_create_model():
-
-    X_train, X_test, y_train, y_test = load_create_sets()
-
-
-    X_test = scaler.transform(X_test)
-
-    model = Sequential()
-
-    model.add(Dense(6,activation='relu'))
-    model.add(Dense(6,activation='relu'))
-    model.add(Dense(6,activation='relu'))
-    model.add(Dense(6,activation='relu'))
-    model.add(Dense(6,activation='relu'))
-    model.add(Dense(6,activation='relu'))
-    model.add(Dense(6,activation='relu'))
-    model.add(Dense(1))
-
-    model.compile(optimizer='adam',loss='mse')
-    model.fit(x=X_train,y=y_train.values,
-              validation_data=(X_test,y_test.values),
-              batch_size=16,epochs=200)
-
-    model.save('predict_squat.h5')
-
-def fit_scalar(X_train):
-
+    X_train, X_test, y_train, y_test = "", "", "", ""
     scaler = MinMaxScaler()
-    X_train = scaler.fit_transform(X_train)
 
-    return scaler
+    def __init__(self):
+        self.X_train, self.X_test, self.y_train, self.y_test = self.load_create_sets()
+        self.fit_scaler()
 
 
-def predict(result_list):
-    scaler = fit_scalar()
-    model = load_model('predict_deadlift.h5')
-    result_list = np.array(result_list)
-    result_list = scaler.transform(result_list.reshape(-1, 6))
+    def load_create_sets(self):
 
-    return model.predict(result_list)
+        df4 = pd.read_csv('df4.csv')
+
+        X = df4.drop(['Equipment', 'TotalKg', 'Best3SquatKg'], 1)
+
+        y = df4['Best3SquatKg']
+
+        from sklearn.model_selection import train_test_split
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+
+        return X_train, X_test, y_train, y_test
+
+
+    def train_create_model(self):
+
+        self.X_test = self.scaler.transform(self.X_test)
+
+        model = Sequential()
+
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(1))
+
+        model.compile(optimizer='adam', loss='mse')
+        model.fit(x=self.X_train, y=self.y_train.values,
+                  validation_data=(self.X_test, self.y_test.values),
+                  batch_size=16, epochs=200)
+
+        model.save('predict_squat.h5')
+
+
+    def fit_scaler(self):
+
+        self.scaler.fit(self.X_train)
+
+
+    def predict(self, result_list):
+        model = load_model('predict_deadlift.h5')
+        result_list = np.array(result_list)
+        result_list = self.scaler.transform(result_list.reshape(-1, 6))
+
+        return model.predict(result_list)

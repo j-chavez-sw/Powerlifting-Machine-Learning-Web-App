@@ -1,0 +1,15 @@
+Flask_SQLAlchemy==2.5.1
+Flask==1.1.2
+SQLAlchemy==1.4.14
+Werkzeug==1.0.1
+alembic==1.6.2
+flask_login==0.5.0
+flask_migrate==2.7.0
+flask_wtf==0.14.3
+matplotlib==3.4.2
+numpy==1.20.2
+pandas==1.2.4
+scikit_learn==0.24.2
+seaborn==0.11.1
+tensorflow==2.4.1
+WTForms==2.3.3
