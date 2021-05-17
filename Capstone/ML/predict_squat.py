@@ -25,7 +25,7 @@ class predict_squat():
         df4 = pd.read_csv('df4.csv')
 
         X = df4.drop(['Equipment', 'TotalKg', 'Best3SquatKg'], 1)
-
+        print(df4.columns)
         y = df4['Best3SquatKg']
 
         from sklearn.model_selection import train_test_split
@@ -64,7 +64,7 @@ class predict_squat():
 
 
     def predict(self, result_list):
-        model = load_model('predict_deadlift.h5')
+        model = load_model('predict_squat.h5')
         result_list = np.array(result_list)
         result_list = self.scaler.transform(result_list.reshape(-1, 6))
 

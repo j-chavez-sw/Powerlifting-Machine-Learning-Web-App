@@ -41,15 +41,34 @@ class UpdateForm(FlaskForm):
 
 class BenchForm(FlaskForm):
 
-    print("dog")
-    # equipment = RadioField(label='Equipment',choices=[('option1','Raw'),('option2','Wrap'),('option3','Singe-Ply'),
-    #                                                   ('option4','Multi-Ply')])
     equipment = RadioField(label='Equipment',choices=[(0,'Raw'),(2,'Wrap'),(1,'Singe-Ply'),
                                                       (3,'Multi-Ply')], validators=[InputRequired()])
     age = IntegerField('Age', validators=[DataRequired()])
     sex = RadioField('Sex',choices=[(1,'Male'),(0,'Female')], validators=[DataRequired()])
     weight = FloatField('Weight', validators=[DataRequired()])
     squat = IntegerField('Squat - in KG', validators=[DataRequired()])
+    deadlift = IntegerField('Deadlift - in KG', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+class DeadliftForm(FlaskForm):
+
+    equipment = RadioField(label='Equipment',choices=[(0,'Raw'),(2,'Wrap'),(1,'Singe-Ply'),
+                                                      (3,'Multi-Ply')], validators=[InputRequired()])
+    age = IntegerField('Age', validators=[DataRequired()])
+    sex = RadioField('Sex',choices=[(1,'Male'),(0,'Female')], validators=[DataRequired()])
+    weight = FloatField('Weight', validators=[DataRequired()])
+    bench = IntegerField('Bench - in KG', validators=[DataRequired()])
+    squat = IntegerField('Squat - in KG', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+class SquatForm(FlaskForm):
+
+    equipment = RadioField(label='Equipment',choices=[(0,'Raw'),(2,'Wrap'),(1,'Singe-Ply'),
+                                                      (3,'Multi-Ply')], validators=[InputRequired()])
+    age = IntegerField('Age', validators=[DataRequired()])
+    sex = RadioField('Sex',choices=[(1,'Male'),(0,'Female')], validators=[DataRequired()])
+    weight = FloatField('Weight', validators=[DataRequired()])
+    bench = IntegerField('Bench - in KG', validators=[DataRequired()])
     deadlift = IntegerField('Deadlift - in KG', validators=[DataRequired()])
     submit = SubmitField('Update')
 

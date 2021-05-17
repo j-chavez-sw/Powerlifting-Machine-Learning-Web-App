@@ -2,8 +2,10 @@ from flask import render_template, url_for, redirect, request, Blueprint, flash
 from flask_login import login_user, current_user, logout_user, login_required
 from Capstone import db
 from Capstone.models import User
-from Capstone.Users.forms import RegistrationForm, LoginForm, UpdateForm, BenchForm
-from Capstone.ML import predict_squat
+from Capstone.Users.forms import RegistrationForm, LoginForm, UpdateForm, BenchForm, DeadliftForm, SquatForm
+from Capstone.ML.predict_squat import predict_squat
+from Capstone.ML.predict_deadlift import predict_deadlift
+from Capstone.ML.predict_bench import predict_bench
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
@@ -83,24 +85,6 @@ def visualize():
 @users.route('/predict', methods=['GET', 'POST'])
 @login_required
 def predict():
-    # current_model = load_model('deadlift_predict')
-    # user_input = [[  0. ,  29. ,  59.8, 105. ,  55. ,   2. ]]
-    # scaler = MinMaxScaler()
-    # user_input = scaler.transform(user_input)
-    # prediction = current_model.predict(user_input)
-    # form = PredictForm()
-    #
-    # if request.method == 'POST':
-    #     if request.form['bench_button'] == 'Bench':
-    #         print("Bench")  # do something
-    #     elif request.form['squat_button'] == 'Squat':
-    #         print("Squat")  # do something else
-    #     elif request.form['deadlift_button'] == 'Deadlift':
-    #         print("Deadlift")  # do something else
-    #     else:
-    #         pass # unknown
-    # elif request.method == 'GET':
-    #     return render_template('predict.html', form=form)
 
     return render_template('predict.html')
 
@@ -112,7 +96,7 @@ def bench():
     form = BenchForm()
 
     if form.validate_on_submit():
-        predictor = predict_squat()
+        predictor = predict_bench()
 
         equipment = form.equipment.data
         age = form.age.data
@@ -122,10 +106,14 @@ def bench():
         deadlift = form.deadlift.data
 
         new_prediction = [sex,equipment,age,weight,squat,deadlift]
-        from Capstone.ML.predict_squat import predict
-        new_prediction = predict(new_prediction)
+        print("input", new_prediction)
+        new_prediction = predictor.predict(new_prediction)
 
-        return render_template('bench.html', new_prediction = new_prediction, form=form)
+        print("results", new_prediction)
+
+        new_prediction = round(new_prediction.flat[0],1)
+
+        return render_template('bench.html', new_prediction = new_prediction , form=form)
 
 
     elif request.method == "GET":
@@ -136,11 +124,63 @@ def bench():
 @users.route('/squat', methods=['GET', 'POST'])
 @login_required
 def squat():
-    dog = "Squat"
-    return render_template('squat.html', dog=dog)
+
+    form = SquatForm()
+
+    if form.validate_on_submit():
+        predictor = predict_squat()
+
+        equipment = form.equipment.data
+        age = form.age.data
+        sex = form.sex.data
+        weight = form.weight.data
+        bench = form.bench.data
+        deadlift = form.deadlift.data
+
+        new_prediction = [sex,equipment,age,weight,bench,deadlift]
+        print("input", new_prediction)
+        new_prediction = predictor.predict(new_prediction)
+
+        print("results", new_prediction)
+
+        new_prediction = round(new_prediction.flat[0],1)
+
+        return render_template('squat.html', new_prediction = new_prediction , form=form)
+
+
+    elif request.method == "GET":
+        print("get")
+
+    return render_template('squat.html', form=form)
 
 @users.route('/deadlift', methods=['GET', 'POST'])
 @login_required
 def deadlift():
-    dog = "Deadlift"
-    return render_template('deadlift.html', dog=dog)
+
+    form = DeadliftForm()
+
+    if form.validate_on_submit():
+        predictor = predict_deadlift()
+
+        equipment = form.equipment.data
+        age = form.age.data
+        sex = form.sex.data
+        weight = form.weight.data
+        bench = form.bench.data
+        squat = form.squat.data
+
+        new_prediction = [sex,equipment,age,weight,squat,bench]
+        print("input", new_prediction)
+        new_prediction = predictor.predict(new_prediction)
+
+        print("results", new_prediction)
+
+        new_prediction = round(new_prediction.flat[0],1)
+
+        return render_template('deadlift.html', new_prediction = new_prediction , form=form)
+
+
+    elif request.method == "GET":
+        print("get")
+
+    return render_template('deadlift.html', form=form)

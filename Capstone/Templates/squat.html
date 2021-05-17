@@ -1,11 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
+
     <div class = "p-5 mb-4 bg-light rounded-3">
         <h1>
             squat
         </h1>
-        <p>
-            {{ dog }}
-        </p>
     </div>
+        <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+            <div class="h-100 p-5 bg-light border rounded-3">
+            <form method="post">
+                {{ form.hidden_tag() }}
+{#                {{ form.equipment.label() }} {{ form.equipment() }}<br>#}
+
+
+                {{form.equipment.label}}<br>
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                    {% for subfield in form.equipment %}
+                        {{ subfield(class="btn-check") }} {{ subfield.label(class="btn btn-outline-primary") }}
+                    {% endfor %}
+                </div><br>
+{#                <div class="form-floating">#}
+{#                {{ form.age(class="form-control", id="floating") }}{{ form.age.label(for="floating") }}#}
+{#                </div>#}
+                <div class="form-floating">
+                {{ form.age(class="form-control", placeholder="place holder") }}{{ form.age.label }}
+                </div>
+
+                {{form.sex.label}}<br>
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                    {% for subfield in form.sex %}
+                        {{ subfield(class="btn-check") }} {{ subfield.label(class="btn btn-outline-primary") }}
+                    {% endfor %}
+                </div><br>
+
+                <div class="form-floating">
+                {{ form.weight(class="form-control", placeholder="place holder") }}{{ form.weight.label }}
+                </div>
+
+                <div class="form-floating">
+                {{ form.bench(class="form-control", placeholder="place holder") }}{{ form.bench.label }}
+                </div>
+
+                <div class="form-floating">
+                {{ form.deadlift(class="form-control", placeholder="place holder") }}{{ form.deadlift.label }}
+                </div>
+
+                {{ form.submit() }}
+            </form>
+            </div></div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 text-white bg-dark rounded-3">
+                <h2>
+                    Prediction
+                </h2>
+                {{ new_prediction }}
+            </div></div>
+        </div>
+
 {% endblock %}

@@ -10,56 +10,63 @@ from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import MinMaxScaler
 
 
-df4 = pd.read_csv('df4.csv')
-# df4.reset_index(drop=True, inplace=True)
-# print(df4.info())
-# df4.drop(['Unnamed: 0','Unnamed: 0.1'],1,inplace=True)
-# df4.to_csv('df4.csv',index=False,)
+class predict_bench():
+
+    X_train, X_test, y_train, y_test = "", "", "", ""
+    scaler = MinMaxScaler()
+
+    def __init__(self):
+        self.X_train, self.X_test, self.y_train, self.y_test = self.load_create_sets()
+        self.fit_scaler()
 
 
-X = df4.drop(['Equipment', 'TotalKg', 'Best3BenchKg'],1)
+    def load_create_sets(self):
 
-y = df4['Best3BenchKg']
+        df4 = pd.read_csv('df4.csv')
 
-from sklearn.model_selection import train_test_split
+        X = df4.drop(['Equipment', 'TotalKg', 'Best3BenchKg'], 1)
+        print(df4.columns)
 
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3,random_state=101)
+        y = df4['Best3BenchKg']
+
+        from sklearn.model_selection import train_test_split
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+
+        return X_train, X_test, y_train, y_test
 
 
-scaler = MinMaxScaler()
+    def train_create_model(self):
 
-X_train= scaler.fit_transform(X_train)
+        self.X_test = self.scaler.transform(self.X_test)
 
-X_test = scaler.transform(X_test)
+        model = Sequential()
 
-model = Sequential()
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(6,activation='relu'))
+        model.add(Dense(1))
 
-model.add(Dense(6,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(1))
+        model.compile(optimizer='adam', loss='mse')
+        model.fit(x=self.X_train, y=self.y_train.values,
+                  validation_data=(self.X_test, self.y_test.values),
+                  batch_size=16, epochs=200)
 
-model.compile(optimizer='adam',loss='mse')
-model.fit(x=X_train,y=y_train.values,
-          validation_data=(X_test,y_test.values),
-          batch_size=16,epochs=200)
+        model.save('predict_bench.h5')
 
-from sklearn.metrics import mean_squared_error,mean_absolute_error,explained_variance_score
-X_test
-predictions = model.predict(X_test)
-mean_absolute_error(y_test,predictions)
-np.sqrt(mean_squared_error(y_test,predictions))
-explained_variance_score(y_test,predictions)
 
-# model = load_model('predict_bench.h5')
+    def fit_scaler(self):
 
-single_pred = df4.drop(['Equipment', 'TotalKg', 'Best3BenchKg'],1).iloc[0]
-print(single_pred)
-single_pred = scaler.transform(single_pred.values.reshape(-1, 6))
+        self.scaler.fit(self.X_train)
 
-print(model.predict(single_pred))
-model.save('predict_bench.h5')
+
+    def predict(self, result_list):
+        model = load_model('predict_bench.h5')
+        result_list = np.array(result_list)
+        result_list = self.scaler.transform(result_list.reshape(-1, 6))
+
+        return model.predict(result_list)
