@@ -6,9 +6,7 @@ from Capstone.Users.forms import RegistrationForm, LoginForm, UpdateForm, BenchF
 from Capstone.ML.predict_squat import predict_squat
 from Capstone.ML.predict_deadlift import predict_deadlift
 from Capstone.ML.predict_bench import predict_bench
-import tensorflow as tf
-from tensorflow.keras.models import load_model
-from sklearn.preprocessing import MinMaxScaler
+
 
 users = Blueprint('users', __name__)
 
