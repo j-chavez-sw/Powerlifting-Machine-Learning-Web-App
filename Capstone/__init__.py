@@ -4,7 +4,7 @@ import os
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='Templates')
 app.config['SECRET_KEY'] = 'mysecret'
 #
 #######DATABASE###########
