@@ -19,14 +19,8 @@
       <li class='nav-link'>
           <a href="{{url_for('core.info')}}">About</a>
       </li>
-{#      <li class='nav-link'>#}
-{#          <a href="{{url_for('core.visualize')}}">Visualize</a>#}
-{#      </li>#}
-{#      <li class='nav-link'>#}
-{#          <a href="{{url_for('core.predict')}}">Predict</a>#}
-{#      </li>#}
 
-{#      {% if current_user.is_authenticated %}#}
+      {% if current_user.is_authenticated %}
       <li class='nav-link'>
           <a href="{{url_for('users.visualize')}}">Visualize</a>
       </li>
@@ -40,14 +34,14 @@
           <a href="{{url_for('users.logout')}}">Log Out</a>
       </li>
 
-{#      {% else %}#}
+      {% else %}
       <li class='nav-link'>
           <a href="{{url_for('users.login')}}">Log In</a>
       </li>
       <li class='nav-link'>
           <a href="{{url_for('users.register')}}">Register</a>
       </li>
-{#      {% endif %}#}
+      {% endif %}
     </ul>
     <div class="container">
         {%block content%}
