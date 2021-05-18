@@ -17,7 +17,7 @@ app.config['SECRET_KEY'] = 'mysecret'
 ##########################
 
 #######DATABASE2###########
-URI = "postgresql://kszehnilxhvbqp:f24a461e28fb2fe47d5b620d87c7375ffa34cba7f4e24d2cdfa50fdbcef9100b@ec2-184-73-198-174.compute-1.amazonaws.com:5432/datc0rmuf010ql"
+URI = "postgresql+psycopg2://kszehnilxhvbqp:f24a461e28fb2fe47d5b620d87c7375ffa34cba7f4e24d2cdfa50fdbcef9100b@ec2-184-73-198-174.compute-1.amazonaws.com:5432/datc0rmuf010ql"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
