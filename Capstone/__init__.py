@@ -3,20 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from dashboard import init_dash_app
+
 
 app = Flask(__name__, template_folder='Templates')
 app.config['SECRET_KEY'] = 'mysecret'
 #
-#######DATABASE###########
-# basedir = os.path.abspath(os.path.dirname(__file__))
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir, 'data.sqlite')
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#
-# db = SQLAlchemy(app)
-# Migrate(app, db)
-##########################
+#######DASH###########
+init_dash_app(app)
+######################
 
-#######DATABASE2###########
+#######DATABASE###########
 URI = "postgresql+psycopg2://kszehnilxhvbqp:f24a461e28fb2fe47d5b620d87c7375ffa34cba7f4e24d2cdfa50fdbcef9100b@ec2-184-73-198-174.compute-1.amazonaws.com:5432/datc0rmuf010ql"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = URI
