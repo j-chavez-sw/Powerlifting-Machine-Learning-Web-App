@@ -104,10 +104,10 @@ def init_dash_app(flask_app):
                 ),
             ], className="col-6"),
             html.Div([
-                html.H1(children='Hello Dash'),
+                html.H1(children='Scatter'),
 
                 html.Div(children='''
-                    Dash: A web application framework for Python.
+                    You can select a lift and narrow the view by selecting an age range of interest. 
                 '''),
                 dcc.Dropdown(
                     searchable=False, clearable=False,
@@ -137,10 +137,11 @@ def init_dash_app(flask_app):
         # New Div for all elements in the new 'row' of the page
         html.Div([
             html.Div([
-                html.H1(children='Hello Dash'),
+                html.H1(children='Box Plot'),
 
                 html.Div(children='''
-                    Dash: A web application framework for Python.
+                    Here you can visualize the percentiles of lifting performances against equipment used for men and 
+                    women.
                 '''),
                 html.P("x-axis:"),
                 dcc.Checklist(
@@ -171,10 +172,10 @@ def init_dash_app(flask_app):
                 ),
             ], className="col-6"),
             html.Div([
-                html.H1(children='Hello Dash'),
+                html.H1(children='Heatmap'),
 
                 html.Div(children='''
-                Dash: A web application framework for Python.
+                This graph describes where types of equipment provide the most benefit in an age group. 
             '''),
 
                 dcc.Graph(
@@ -254,7 +255,8 @@ def init_dash_app(flask_app):
                       x=current_data['EquipFeat'],
                       y=current_data[lift],
                       color=new_col_map,
-                      template=template)
+                      template=template,
+                      color_discrete_sequence=['#44367F','#29A982'])
 
         return fig3
 
