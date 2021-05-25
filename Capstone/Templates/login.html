@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="p-5 mb-4 text-dark bg-dark rounded-3">
     <form method="post">
         {{ form.hidden_tag() }}
-        {{ form.email.label }}{{ form.email }}<br>
-        {{ form.password.label }}{{ form.password }}<br>
-        {{ form.submit() }}
+        <div class="form-floating">
+                {{ form.email(class="form-control", placeholder="place holder") }}{{ form.email.label }}
+                </div>
+        <div class="form-floating">
+                {{ form.password(class="form-control", placeholder="place holder") }}{{ form.password.label }}
+                </div>
+        {{ form.submit(class="btn btn-secondary") }}
+
+
     </form>
     </div>
 {% endblock %}

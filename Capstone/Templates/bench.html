@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class = "p-5 mb-4 bg-light rounded-3">
+    <div class = "p-5 mb-4 bg-dark rounded-3">
         <h1>
             bench
         </h1>
     </div>
         <div class="row align-items-md-stretch">
             <div class="col-md-6">
-            <div class="h-100 p-5 bg-light border rounded-3">
+            <div class="p-5 text-dark bg-dark rounded-3" style="font-weight: bold;">
             <form method="post">
                 {{ form.hidden_tag() }}
 {#                {{ form.equipment.label() }} {{ form.equipment() }}<br>#}
@@ -18,7 +18,7 @@
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 
                     {% for subfield in form.equipment %}
-                        {{ subfield(class="btn-check") }} {{ subfield.label(class="btn btn-outline-primary") }}
+                        {{ subfield(class="btn-check") }} {{ subfield.label(class="btn btn-secondary") }}
                     {% endfor %}
                 </div><br>
 {#                <div class="form-floating">#}
@@ -32,7 +32,7 @@
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 
                     {% for subfield in form.sex %}
-                        {{ subfield(class="btn-check") }} {{ subfield.label(class="btn btn-outline-primary") }}
+                        {{ subfield(class="btn-check") }} {{ subfield.label(class="btn btn-secondary") }}
                     {% endfor %}
                 </div><br>
             
@@ -48,7 +48,7 @@
                 {{ form.deadlift(class="form-control", placeholder="place holder") }}{{ form.deadlift.label }}
                 </div>
             
-                {{ form.submit() }}
+                {{ form.submit(class="btn btn-secondary") }}
             </form>
             </div></div>
             <div class="col-md-6">

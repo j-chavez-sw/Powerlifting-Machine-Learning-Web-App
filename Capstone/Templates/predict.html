@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class = "p-5 mb-4 bg-light rounded-3">
+    <div class = "p-5 mb-4 bg-dark rounded-3" >
+
         <h1>
-            Predict
+            Predictions
         </h1>
-        <h3>Our Flask Buttons</h3>
+        <h3>Pick the lift you want to explore...</h3>
         <a href="{{url_for('users.bench')}}">
             <button type="button" class="btn btn-primary btn-lg">Bench</button>
         </a>
@@ -15,4 +16,5 @@
             <button type="button" class="btn btn-danger btn-lg">Deadlift</button>
         </a>
     </div>
+
 {% endblock %}
