@@ -1,13 +1,11 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import MinMaxScaler
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 class predict_deadlift():
@@ -36,6 +34,7 @@ class predict_deadlift():
 
     def train_create_model(self):
 
+        self.X_train = self.scaler.transform(self.X_train)
         self.X_test = self.scaler.transform(self.X_test)
 
         model = Sequential()
@@ -52,7 +51,7 @@ class predict_deadlift():
         model.compile(optimizer='adam', loss='mse')
         model.fit(x=self.X_train, y=self.y_train.values,
                   validation_data=(self.X_test, self.y_test.values),
-                  batch_size=16, epochs=200)
+                  batch_size=128, epochs=200)
 
         model.save('predict_deadlift.h5')
 

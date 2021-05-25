@@ -103,7 +103,7 @@ def bench():
         squat = form.squat.data
         deadlift = form.deadlift.data
 
-        new_prediction = [sex,equipment,age,weight,squat,deadlift]
+        new_prediction = [sex,age,weight,squat,deadlift,equipment]
         print("input", new_prediction)
         new_prediction = predictor.predict(new_prediction)
 
@@ -135,7 +135,7 @@ def squat():
         bench = form.bench.data
         deadlift = form.deadlift.data
 
-        new_prediction = [sex,equipment,age,weight,bench,deadlift]
+        new_prediction = [sex,age,weight,bench,deadlift,equipment]
         print("input", new_prediction)
         new_prediction = predictor.predict(new_prediction)
 
@@ -167,7 +167,7 @@ def deadlift():
         bench = form.bench.data
         squat = form.squat.data
 
-        new_prediction = [sex,equipment,age,weight,squat,bench]
+        new_prediction = [sex,age,weight,squat,bench,equipment]
         print("input", new_prediction)
         new_prediction = predictor.predict(new_prediction)
 
