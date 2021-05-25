@@ -8,6 +8,7 @@ chardet==4.0.0
 click==7.1.2
 cycler==0.10.0
 dash~=1.20.0
+dash_bootstrap_components
 dnspython==2.1.0
 email-validator==1.1.2
 Flask==1.1.2
