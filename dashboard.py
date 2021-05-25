@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 import numpy as np
 from dash.dependencies import Input, Output
 import pandas as pd
@@ -77,6 +78,18 @@ def init_dash_app(flask_app):
         style={'background-color':'rgb(17,17,17)', 'color':'grey'},
         children=[
         # All elements from the top of the page
+        html.Div([
+            dbc.NavbarSimple(
+                children=[
+                dbc.NavItem(dbc.NavLink("Go Home", href="/", external_link=True)),
+            ],
+            brand="Data Exploration Dashboard",
+            brand_href="/",
+            color='#44367F',
+            dark=True,
+
+        )
+        ], className='row'),
         html.Div([
             html.Div([
 
