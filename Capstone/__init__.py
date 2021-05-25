@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import os
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from dashboard import init_dash_app
@@ -21,28 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 Migrate(app, db)
-# from sqlalchemy import create_engine
-#
-# engine = create_engine(URI)
-#
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy import Column, Integer, String, Date
-#
-# Base = declarative_base()
-#
-# class User(Base):
-#
-#     __tablename__ = 'users'
-#     id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(50), unique=True, index=True)
-#     username = db.Column(db.String(50), unique=True, index=True)
-#     password_hash = db.Column(db.String(128))
-#
-#
-#     def __repr__(self):
-#         return f"Username {self.username}"
-#
-# Base.metadata.create_all(engine)
+
 
 ##########################
 

@@ -1,3 +1,7 @@
+<head>
+    <title>Your Account</title>
+</head>
+
 {% extends "base.html" %}
 {% block content %}
     <div class = "p-5 mb-4 bg-dark rounded-3">
@@ -10,8 +14,6 @@
                 <li>Email:    {{ current_user.email }}</li>
             </ul>
         </div>
-    </div>
-    <div class="container">
         <form method="POST" action = "" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="form-group">
@@ -28,5 +30,6 @@
 
 
         </form>
-    </div>
+        </div>
+
 {% endblock %}

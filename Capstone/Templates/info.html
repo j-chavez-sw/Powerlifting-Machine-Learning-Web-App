@@ -1,8 +1,20 @@
+<head xmlns="http://www.w3.org/1999/html">
+    <title>About</title>
+</head>
+
 {% extends "base.html" %}
 {% block content %}
     <div class = "p-5 mb-4 bg-dark rounded-3">
         <h1>
             About this web application.
         </h1>
+
+    <p> This web application was built primarily for data exploration of the powerlifting dataset available
+    on Kaggle. Users can navigate to 'Visualize' to explore data in the interactive dashboard. Users can also
+    go to predict and get feedback based on users queries.
+    </p>
+    <p>
+        This site was is build using Python Flask and Dash. The predictive features are implemented in Tensorflow.
+    </p>
     </div>
 {% endblock %}

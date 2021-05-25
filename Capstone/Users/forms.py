@@ -2,8 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, RadioField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
 from wtforms import ValidationError
-from flask_wtf.file import FileField,FileAllowed
-from flask_login import current_user
 from Capstone.models import User
 
 class LoginForm(FlaskForm):
@@ -45,7 +43,7 @@ class BenchForm(FlaskForm):
                                                       (3,'Multi-Ply')], validators=[InputRequired()])
     age = IntegerField('Age', validators=[DataRequired()])
     sex = RadioField('Sex',choices=[(1,'Male'),(0,'Female')], validators=[DataRequired()])
-    weight = FloatField('Weight', validators=[DataRequired()])
+    weight = FloatField('Weight - in KG', validators=[DataRequired()])
     squat = IntegerField('Squat - in KG', validators=[DataRequired()])
     deadlift = IntegerField('Deadlift - in KG', validators=[DataRequired()])
     submit = SubmitField('Update')
@@ -56,7 +54,7 @@ class DeadliftForm(FlaskForm):
                                                       (3,'Multi-Ply')], validators=[InputRequired()])
     age = IntegerField('Age', validators=[DataRequired()])
     sex = RadioField('Sex',choices=[(1,'Male'),(0,'Female')], validators=[DataRequired()])
-    weight = FloatField('Weight', validators=[DataRequired()])
+    weight = FloatField('Weight - in KG', validators=[DataRequired()])
     bench = IntegerField('Bench - in KG', validators=[DataRequired()])
     squat = IntegerField('Squat - in KG', validators=[DataRequired()])
     submit = SubmitField('Update')
@@ -67,7 +65,7 @@ class SquatForm(FlaskForm):
                                                       (3,'Multi-Ply')], validators=[InputRequired()])
     age = IntegerField('Age', validators=[DataRequired()])
     sex = RadioField('Sex',choices=[(1,'Male'),(0,'Female')], validators=[DataRequired()])
-    weight = FloatField('Weight', validators=[DataRequired()])
+    weight = FloatField('Weight - in KG', validators=[DataRequired()])
     bench = IntegerField('Bench - in KG', validators=[DataRequired()])
     deadlift = IntegerField('Deadlift - in KG', validators=[DataRequired()])
     submit = SubmitField('Update')
