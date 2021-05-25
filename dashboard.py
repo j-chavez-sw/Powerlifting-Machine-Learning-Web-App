@@ -222,7 +222,7 @@ def init_dash_app(flask_app):
                                    ))
         fig.update_layout(template=template)
         return fig
-
+#
     @dash_app.callback(
         dash.dependencies.Output('graph2', 'figure'),
         [dash.dependencies.Input('range-slider', 'value'),
