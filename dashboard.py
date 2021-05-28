@@ -6,6 +6,8 @@ from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 
 df = pd.read_csv('df4.csv')
 df_m = df[df['Sex'] == 1]
@@ -38,7 +40,6 @@ def init_dash_app(flask_app):
                                ))
     fig.update_layout(template=template)
 
-    print(df.info())
     fig2 = go.Figure()
 
     fig2.add_trace(go.Scattergl(
@@ -64,12 +65,20 @@ def init_dash_app(flask_app):
                   y="TotalKg",
                   color=new_col_map,
                   template=template)
-    fig4 = go.Figure(data=go.Heatmap(
-                z=df["TotalKg"],
-                x=df["Equipment"],
-                y=df["Age"],
-                colorscale='Viridis'))
+
+    num_of_comp = 1
+    max_slider_value = 4
+    current_df = df[['Sex','Age','EquipFeat','TotalKg']]
+    scaler = StandardScaler()
+    scaler.fit(current_df)
+    scaled_data = scaler.transform(current_df)
+    pca = PCA(n_components=num_of_comp)
+    pca.fit(scaled_data)
+    x_pca = pca.transform(scaled_data)
+    df_comp = pd.DataFrame(pca.components_, columns=current_df.columns)
+    fig4 = px.imshow(df_comp)
     fig4.update_layout(template=template)
+
 
 
     dash_app.layout = html.Div(
@@ -183,15 +192,36 @@ def init_dash_app(flask_app):
                 ),
             ], className="col-6"),
             html.Div([
-                html.H1(children='Heatmap'),
+                html.H1(children='Heatmap for Principal Component Analysis'),
 
                 html.Div(children='''
-                This graph describes where types of equipment provide the most benefit in an age group. 
+                This graph describes how Principal Components correlate with distinct features in the dataset. 
             '''),
-
+                html.P("Features for comparison:"),
+                dcc.Checklist(
+                    id='feature_list',
+                    options=[{'value': 'Sex', 'label': 'Sex'},
+                             {'value': 'Age', 'label': 'Age'},
+                             {'value': 'EquipFeat', 'label': 'Equipment'},
+                             {'value': 'BodyweightKg', 'label': 'Weight'},
+                             {'value': 'Best3SquatKg', 'label': 'Squat'},
+                             {'value': 'Best3BenchKg', 'label': 'Bench'},
+                             {'value': 'Best3DeadliftKg', 'label': 'Deadlift'},
+                             {'value': 'TotalKg', 'label': 'TotalKG'}
+                             ],
+                    value=['Sex','Age','EquipFeat','TotalKg'],
+                    labelStyle={'display': 'inline-block'}
+                ),
                 dcc.Graph(
                     id='graph4',
                     figure=fig4
+                ),
+                dcc.Slider(
+                    id='slider',
+                    min=1, max=max_slider_value, step=1,
+                    marks={1: '1', 2: '2', 3: '3', 4: '4', 5: '5',
+                           6: '6', 7: '7', 8: '8'},
+                    value=1
                 ),
             ], className="col-6"),
         ], className='row')])
@@ -271,4 +301,38 @@ def init_dash_app(flask_app):
 
         return fig3
 
+    @dash_app.callback(
+         dash.dependencies.Output('slider', component_property='value'),
+        [dash.dependencies.Input('slider', 'value'),
+         dash.dependencies.Input('feature_list', 'value')])
+    def update_slider_value(value, features):
+        if len(features)<value:
+            new_slider_value = len(features)
+        else:
+            new_slider_value = value
 
+        return new_slider_value
+
+
+    @dash_app.callback(
+        [dash.dependencies.Output('graph4', 'figure'),
+         dash.dependencies.Output('slider', component_property='max')],
+        [dash.dependencies.Input('slider', 'value'),
+         dash.dependencies.Input('feature_list', 'value')])
+    def update_pca(value, features):
+        num_of_comp = value
+        current_df = df[features]
+        scaler = StandardScaler()
+        scaler.fit(current_df)
+        scaled_data = scaler.transform(current_df)
+        pca = PCA(n_components=num_of_comp)
+
+        pca.fit(scaled_data)
+
+        x_pca = pca.transform(scaled_data)
+        df_comp = pd.DataFrame(pca.components_, columns=current_df.columns)
+        fig4 = px.imshow(df_comp)
+        fig4.update_layout(template=template)
+
+
+        return fig4, len(features)
